@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { StatusBar } from "react-native";
+import AppLoading from "expo-app-loading";
+import { func } from "./src/constants";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Barber Project!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+// main navigation stack
+import Stack from "./src/navigation/Stack";
+
+export default class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isLoading: true,
+    };
+  }
+
+  render() {
+    const { isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <AppLoading
+          onError={console.warn}
+          onFinish={() => this.setState({ isLoading: false })}
+          startAsync={func.loadAssetsAsync}
+        />
+      );
+    }
+
+    return (
+      <React.Fragment>
+        <StatusBar barStyle="dark-content" />
+        <Stack />
+      </React.Fragment>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

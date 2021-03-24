@@ -4,6 +4,8 @@ const bikeSm = require('../assets/images/bike-sm.jpg');
 const bikeLg = require('../assets/images/bike-lg.jpg');
 const carSm = require('../assets/images/car-sm.jpg');
 const carLg = require('../assets/images/car-lg.jpg');
+const womanLg = require('../assets/images/woman.png');
+const manLg = require('../assets/images/man.png');
 
 const iconQRBike = require('../assets/images/icon-qr-bike.png');
 const iconQRCode = require('../assets/images/icon-qr-code.png');
@@ -18,7 +20,8 @@ export default {
   bikeLg,
   carSm,
   carLg,
-
+  womanLg,
+  manLg,
   iconQRBike,
   iconQRCode,
   iconQRFlashlight,

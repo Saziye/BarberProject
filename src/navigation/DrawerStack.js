@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from 'react-navigation-drawer';
 
 // screens
-import Home from '../screens/Home';
+import Home from '../screens/Home/index';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 
 const DrawerStack = createDrawerNavigator(

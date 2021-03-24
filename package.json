@@ -13,6 +13,7 @@
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
     "expo": "~40.0.0",
+    "expo-app-loading": "^1.0.1",
     "expo-status-bar": "~1.0.3",
     "i18next": "^19.9.0",
     "react": "16.13.1",
@@ -24,7 +25,20 @@
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
     "react-native-web": "~0.13.12",
-    "react-redux": "^7.2.2"
+    "react-redux": "^7.2.2",
+    "@react-native-community/masked-view": "0.1.10",
+    "expo-asset": "~8.2.1",
+    "expo-barcode-scanner": "~9.1.0",
+    "expo-constants": "~9.3.3",
+    "expo-font": "~8.4.0",
+    "expo-location": "~10.0.0",
+    "expo-permissions": "~10.0.0",
+    "prop-types": "^15.7.2",
+    "react-native-maps": "0.27.1",
+    "react-native-svg": "12.1.0",
+    "react-navigation": "^4.4.3",
+    "react-navigation-drawer": "^2.5.0",
+    "react-navigation-stack": "^2.10.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

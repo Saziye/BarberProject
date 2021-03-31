@@ -1,95 +1,121 @@
-import React, { Component } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useContext, useState } from "react";
+import { Alert, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import {
+  HeaderLine,
+  PrimaryButton,
+  Separator,
+  TextInput,
+  KeyboardView,
+  Text,
+} from "../components";
+import { AuthenticationContext } from "../context";
+import { useLocalization } from "../localization";
+import NavigationNames from "../navigations/NavigationNames";
+import { AuthService } from "../services";
+import { useTheme } from "../theme";
 
-import { Text, View, TextInput, Button, Alert } from "react-native";
-import { Actions, Scene, Router } from "react-native-router-flux";
+export const LoginScreen = () => {
+  const authContext = useContext(AuthenticationContext);
+  const navigation = useNavigation();
+  const { getString } = useLocalization();
+  const { colors } = useTheme();
 
-import { serializeKey, setSessionTicket } from "../../common/index";
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-export default class LoginPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      userName: "",
-      userPassword: "",
-    };
-  }
-
-  goLogin() {
-    // ajax il kontrol
-    var name = this.state.userName;
-    var pass = this.state.userPassword;
-    var present = this;
-    if (name == "" || pass == "") {
-      Alert.alert("Boş bırakamazsınız");
-    } else {
-      fetch("http://192.168.1.102/index.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: serializeKey({
-          userName: name,
-          userPassword: pass,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.session_ticket) setSessionTicket(String(res.session_ticket));
-
-          if (res.result != -1) Actions.MainPage({ type: "reset" });
-          else Alert.alert("Kullanıcı doğrulanamadı");
-        })
-        .catch((err) => {
-          Alert.alert("Bur sorun oluştu " + err);
-        });
+  const onClickLogin = () => {
+    if (username === "" || password === "") {
+      Alert.alert(getString("required_login_inputs"));
+      return;
     }
-  }
+    AuthService.login(username, password)
+      .then(async (user: any) => {
+        await authContext.login(user);
+        navigation.goBack();
+      })
+      .catch((e) => Alert.alert(e.message));
+  };
 
-  render() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: 15,
-        }}
-      >
-        <View>
+  const onClickRegister = () => {
+    navigation.navigate(NavigationNames.RegisterScreen);
+  };
+
+  return (
+    <SafeAreaView style={styles.container} forceInset={{ top: "always" }}>
+      <HeaderLine />
+      <KeyboardView style={styles.content}>
+        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+          <Text
+            style={[
+              styles.titleText,
+              {
+                color: colors.primaryColor,
+              },
+            ]}
+          >
+            {getString("login_title")}
+          </Text>
           <TextInput
-            style={{
-              height: 50,
+            inputProps={{
+              placeholder: getString("username"),
+              value: username,
+              onChangeText: setUsername,
             }}
-            value={this.state.userName}
-            onChangeText={(value) => this.setState({ userName: value })}
-            placeholder="Kullanıcı adı"
           />
-        </View>
-        <View>
+          <Separator height={16} />
           <TextInput
-            style={{
-              height: 50,
+            inputProps={{
+              placeholder: getString("password"),
+              secureTextEntry: true,
+              textContentType: "none",
+              autoCorrect: false,
+              value: password,
+              onChangeText: setPassword,
             }}
-            onChangeText={(value) => this.setState({ userPassword: value })}
-            value={this.state.userPassword}
-            placeholder="Şifre"
           />
-        </View>
-        <View
-          style={{
-            height: 50,
-          }}
-        >
-          <Button
-            title="Giriş" // butonun yazısı
-            color="#4285f4" // arkaplan rengi
-            onPress={this.goLogin.bind(
-              this
-            )} /* butona tıklandığında tetiklenecek fonksiyon*/
+          <Separator height={32} />
+          <PrimaryButton
+            title={getString("login_upper")}
+            onPress={onClickLogin}
           />
-        </View>
-      </View>
-    );
-  }
-}
+          <TouchableOpacity
+            style={styles.registerButton}
+            onPress={onClickRegister}
+          >
+            <Text style={{ color: colors.gray }}>
+              {getString("register_upper")}
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  content: {
+    flex: 1,
+  },
+  contentContainerStyle: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 16,
+  },
+  titleText: {
+    fontSize: 42,
+    fontFamily: "default-light",
+    marginBottom: 24,
+  },
+  registerButton: {
+    alignSelf: "center",
+    marginTop: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+  },
+});

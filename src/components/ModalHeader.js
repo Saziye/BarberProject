@@ -1,18 +1,18 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { colors, device, fonts, gStyle } from '../constants';
+import * as React from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { withNavigation } from "react-navigation";
+import { colors, device, fonts, gStyle } from "../constants";
 
 // icons
-import SvgClose from './icons/Svg.Close';
+import SvgClose from "./icons/Svg.Close";
 
 const ModalHeader = ({ navigation, style, text }) => (
   <View style={[styles.container, style]}>
     <TouchableOpacity
       activeOpacity={gStyle.activeOpacity}
       hitSlop={{ bottom: 10, left: 10, right: 10, top: 10 }}
-      onPress={() => navigation.goBack(null)}
+      onPress={() => navigation.goBack()}
       style={styles.containerIconRight}
     >
       <SvgClose />
@@ -23,7 +23,7 @@ const ModalHeader = ({ navigation, style, text }) => (
 
 ModalHeader.defaultProps = {
   style: {},
-  text: null
+  text: null,
 };
 
 ModalHeader.propTypes = {
@@ -34,26 +34,26 @@ ModalHeader.propTypes = {
   style: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.number,
-    PropTypes.object
+    PropTypes.object,
   ]),
-  text: PropTypes.string
+  text: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.black,
     paddingHorizontal: 24,
-    paddingTop: device.iPhoneX ? 48 : 24
+    paddingTop: device.iPhoneX ? 48 : 24,
   },
   containerIconRight: {
-    width: 20
+    width: 20,
   },
   header: {
     color: colors.white,
     fontFamily: fonts.uberMedium,
     fontSize: 28,
-    paddingVertical: 16
-  }
+    paddingVertical: 16,
+  },
 });
 
 export default withNavigation(ModalHeader);

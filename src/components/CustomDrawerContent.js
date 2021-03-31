@@ -6,7 +6,7 @@ import { colors, device, fonts } from '../constants';
 const CustomDrawerContent = () => (
   <View style={styles.container}>
     <View style={styles.containerVersion}>
-      <Text style={styles.versionText}>{`v${Constants.manifest.version}`}</Text>
+      <Text style={styles.versionText}>{`vsc`}</Text>
     </View>
   </View>
 );

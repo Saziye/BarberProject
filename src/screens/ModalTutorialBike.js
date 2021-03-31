@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
-import { gStyle } from '../constants';
+import * as React from "react";
+import { Text, View } from "react-native";
+import { gStyle } from "../constants";
 
 // components
-import ModalHeader from '../components/ModalHeader';
+import ModalHeader from "../components/ModalHeader";
 
 const ModalTutorialBike = () => (
   <View style={gStyle.container}>
